@@ -7,6 +7,7 @@ A tiny client which measures the ground water level by ultrasonic
 
 ## Software requirements
 * PHP > 7.0
+* Python
 * PHP curl extension
 * Ready [HWM server](https://github.com/SkydiveMarius/hwm-server)
 
