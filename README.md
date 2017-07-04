@@ -13,6 +13,7 @@ A tiny client which measures the ground water level by ultrasonic
 ## Configuration
 Copy .env.dist to .env
 Fill .env variables
+
 | Variable      | Description                        |
 | ------------- | ---------------------------------- |
 | SERVER_URL    | Full HWM server URL                |
