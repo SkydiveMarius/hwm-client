@@ -1,0 +1,25 @@
+{
+    "name": "skydive-marius/hwm-measurement",
+    "description": "A tiny client which measures the ground water level by ultrasonic",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Marius Meissner",
+            "email": "info@marius-meissner.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/process": "^3.3",
+        "nesbot/carbon": "^1.22",
+        "phpunit/phpunit": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SkydiveMarius\\HWM\\Client\\": "",
+            "SkydiveMarius\\HWM\\Client\\Src\\": "src",
+            "SkydiveMarius\\HWM\\Client\\Tests\\": "tests"
+        }
+    }
+}
