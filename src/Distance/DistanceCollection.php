@@ -8,8 +8,10 @@ use Carbon\Carbon;
  *
  * @package HWM\Measurement\Distance
  */
-class DistanceCollection
+class DistanceCollection implements \JsonSerializable
 {
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /**
      * @var Carbon
      */
@@ -84,5 +86,33 @@ class DistanceCollection
     public function getValues(): array
     {
         return $this->values;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getTime(): Carbon
+    {
+        return $this->time;
+    }
+
+    /**
+     * @return int Age in seconds
+     */
+    public function getAge(): int
+    {
+        return $this->time->diffInSeconds(Carbon::now());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'time'    => $this->time->format(self::DATE_FORMAT),
+            'average' => $this->getAverage(),
+            'values'  => $this->values
+        ];
     }
 }
