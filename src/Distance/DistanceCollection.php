@@ -43,10 +43,11 @@ class DistanceCollection
             return true;
         }
 
-        $base = array_pop($this->values);
+        $values = $this->values;
+        $base = array_pop($values);
         $deviation =  0;
 
-        foreach ($this->values as $value) {
+        foreach ($values as $value) {
             $delta = abs($value - $base);
 
             if ($delta > $deviation) {

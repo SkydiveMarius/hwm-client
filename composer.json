@@ -13,7 +13,8 @@
     "require": {
         "symfony/process": "^3.3",
         "nesbot/carbon": "^1.22",
-        "phpunit/phpunit": "^6.2"
+        "phpunit/phpunit": "^6.2",
+        "volantus/console-operations": "^1.1"
     },
     "autoload": {
         "psr-4": {
