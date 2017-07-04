@@ -59,6 +59,18 @@ class DistanceCollection
     }
 
     /**
+     * @return float
+     */
+    public function getAverage(): float
+    {
+        if (empty($this->values)) {
+            throw new \LogicException('Unable to build average of empty distance collection');
+        }
+
+        return array_sum($this->values) / count($this->values);
+    }
+
+    /**
      * @param float $value
      */
     public function put(float $value)
