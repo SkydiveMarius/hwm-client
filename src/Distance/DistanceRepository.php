@@ -50,7 +50,7 @@ class DistanceRepository
             if ($collectionValid) {
                 $this->writeGreenLine('DistanceRepository', 'Collection of measured distance data points is valid');
             } else {
-                $this->writeGreenLine('DistanceRepository', 'Collection of measured distance data points is not valid, will retry measurement ...');
+                $this->writeRedLine('DistanceRepository', 'Collection of measured distance data points is not valid, will retry measurement ...');
             }
         } while (!$collectionValid);
 
