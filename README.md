@@ -21,5 +21,9 @@ Fill .env variables
 
 ## Run the client
 ```bash
-php run.php start
+php run.php start [--interval=60]
 ```
+### Options
+| Short   | Long        | Description                                | Default |
+| ------- | ------------ | ------------------------------------------ | ------- |
+| i       | interval     | Interval in seconds of measurement cycles  | 60      |

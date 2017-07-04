@@ -4,6 +4,7 @@ namespace SkydiveMarius\HWM\Client\Src\CLI;
 use SkydiveMarius\HWM\Client\Src\Scheduling\SchedulingService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -17,6 +18,8 @@ class StartCommand extends Command
     {
         $this->setName('start');
         $this->setDescription('Starts the measurement cycle');
+
+        $this->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 60);
     }
 
     /**
@@ -28,6 +31,6 @@ class StartCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $service = new SchedulingService($output);
-        $service->start();
+        $service->start($input->getOption('interval'));
     }
 }
