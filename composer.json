@@ -2,7 +2,7 @@
     "name": "skydive-marius/hwm-measurement",
     "description": "A tiny client which measures the ground water level by ultrasonic",
     "type": "project",
-    "license": "proprietary",
+    "license": "GNUv3",
     "authors": [
         {
             "name": "Marius Meissner",
