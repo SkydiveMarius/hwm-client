@@ -21,6 +21,7 @@ class UltrasonicAdapter
     public function getDistance(): float
     {
         $process = new Process('python ' . $this->binary);
+        $process->run();
         return (float) trim($process->getOutput());
     }
 }
