@@ -32,6 +32,6 @@ class StartCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $service = new SchedulingService($output);
-        $service->start($input->getOption('interval'));
+        $service->start((int) $input->getOption('interval'), (float) $input->getOption('correctionDelta'));
     }
 }
