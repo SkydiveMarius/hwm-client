@@ -61,6 +61,7 @@ class UploadService
     public function upload(DistanceCollection $distanceCollection)
     {
         $successful = false;
+        $this->writeInfoLine('UploadServe', 'Applying correction delta: ' . $distanceCollection->getCorrectionDelta());
         $this->writeInfoLine('UploadServe', 'Sending measured distance, average value => ' . round($distanceCollection->getAverage(), 2));
 
         do {

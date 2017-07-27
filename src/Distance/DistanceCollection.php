@@ -23,6 +23,11 @@ class DistanceCollection implements \JsonSerializable
     private $values = [];
 
     /**
+     * @var float
+     */
+    private $correctionDelta = 0;
+
+    /**
      * DistanceCollection constructor.
      *
      * @param Carbon|null $time
@@ -69,7 +74,8 @@ class DistanceCollection implements \JsonSerializable
             throw new \LogicException('Unable to build average of empty distance collection');
         }
 
-        return array_sum($this->values) / count($this->values);
+        $average = array_sum($this->values) / count($this->values);
+        return $average - $this->correctionDelta;
     }
 
     /**
@@ -102,6 +108,22 @@ class DistanceCollection implements \JsonSerializable
     public function getAge(): int
     {
         return $this->time->diffInSeconds(Carbon::now());
+    }
+
+    /**
+     * @param float $correctionDelta
+     */
+    public function setCorrectionDelta(float $correctionDelta)
+    {
+        $this->correctionDelta = $correctionDelta;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCorrectionDelta(): float
+    {
+        return $this->correctionDelta;
     }
 
     /**

@@ -45,9 +45,10 @@ class SchedulingService
     }
 
     /**
-     * @param int $interval
+     * @param int   $interval
+     * @param float $correctionDelta
      */
-    public function start(int $interval = 60)
+    public function start(int $interval = 60, float $correctionDelta = 0)
     {
         while (true) {
             $this->cycle++;
@@ -55,6 +56,7 @@ class SchedulingService
 
             try {
                 $distanceCollection = $this->distanceRepository->measure();
+                $distanceCollection->setCorrectionDelta($correctionDelta);
                 $this->uploadService->upload($distanceCollection);
 
                 $delta = $interval - $distanceCollection->getAge();

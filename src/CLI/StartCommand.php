@@ -20,6 +20,7 @@ class StartCommand extends Command
         $this->setDescription('Starts the measurement cycle');
 
         $this->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 60);
+        $this->addOption('correctionDelta', 'c', InputOption::VALUE_OPTIONAL, 0);
     }
 
     /**

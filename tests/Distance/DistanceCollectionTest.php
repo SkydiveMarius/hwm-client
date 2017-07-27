@@ -38,4 +38,12 @@ class DistanceCollectionTest extends TestCase
         $collection = new DistanceCollection(null, [10, 14, 16, 20]);
         self::assertEquals(15, $collection->getAverage());
     }
+
+    public function test_getAverage_correctionDeltaApplied()
+    {
+        $collection = new DistanceCollection(null, [10, 14, 16, 20]);
+        $collection->setCorrectionDelta(2);
+
+        self::assertEquals(13, $collection->getAverage());
+    }
 }
