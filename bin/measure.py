@@ -1,51 +1,28 @@
-#!/usr/bin/python
-
-# Import required Python libraries
-import time
 import RPi.GPIO as GPIO
-
-# Use BCM GPIO references
-# instead of physical pin numbers
+import time
+ 
 GPIO.setmode(GPIO.BCM)
+GPIO_TRIGGER = 19
+GPIO_ECHO = 20
+GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+GPIO.setup(GPIO_ECHO, GPIO.IN)
 
-# Define GPIO to use on Pi
-GPIO_TRIGGER = 24
-GPIO_ECHO = 23
-
-
-
-# Set pins as output and input
-GPIO.setup(GPIO_TRIGGER,GPIO.OUT)  # Trigger
-GPIO.setup(GPIO_ECHO,GPIO.IN)      # Echo
-
-# Set trigger to False (Low)
-GPIO.output(GPIO_TRIGGER, False)
-
-# Allow module to settle
-time.sleep(0.5)
-
-# Send 10us pulse to trigger
 GPIO.output(GPIO_TRIGGER, True)
 time.sleep(0.00001)
 GPIO.output(GPIO_TRIGGER, False)
-start = time.time()
-while GPIO.input(GPIO_ECHO)==0:
-  start = time.time()
 
-while GPIO.input(GPIO_ECHO)==1:
-  stop = time.time()
+startTime = time.time()
+endTime = time.time()
 
-# Calculate pulse length
-elapsed = stop-start
+while GPIO.input(GPIO_ECHO) == 0:
+    startTime = time.time()
 
-# Distance pulse travelled in that time is time
-# multiplied by the speed of sound (cm/s)
-distance = elapsed * 34000
+while GPIO.input(GPIO_ECHO) == 1:
+    endTime = time.time()
 
-# That was the distance there and back so halve the value
-distance = distance / 2
+timeDelta = endTime - startTime
+distance = (timeDelta * 34300) / 2
 
-print "%.1f" % distance
+print ("%.1f" % distance)
 
-# Reset GPIO settings
 GPIO.cleanup()
