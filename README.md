@@ -25,6 +25,8 @@ Fill .env variables
 php run.php start [--interval=60]
 ```
 ### Options
-| Short   | Long        | Description                                | Default |
-| ------- | ------------ | ------------------------------------------ | ------- |
-| i       | interval     | Interval in seconds of measurement cycles  | 60      |
+| Short   | Long                  | Description                                                 | Default |
+| ------- | --------------------- | ----------------------------------------------------------- | ------- |
+| i       | interval              | Interval in seconds of measurement cycles                   | 60      |
+| c       | correctionDelta       | Value which is subtracted from each measurement value       | 0       |
+| n       | normalizationDeepness | Number of measurements from the past used for normalization | 5       |

@@ -23,7 +23,7 @@ class StartCommand extends Command
 
         $this->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 60);
         $this->addOption('correctionDelta', 'c', InputOption::VALUE_OPTIONAL, 0);
-        $this->addOption('normalizationDelta', 'n', InputOption::VALUE_OPTIONAL, 5);
+        $this->addOption('normalizationDeepness', 'n', InputOption::VALUE_OPTIONAL, 5);
     }
 
     /**
@@ -35,7 +35,7 @@ class StartCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $distanceRepository = new DistanceRepository($output, new UltrasonicAdapter());
-        $service = new SchedulingService($output, $distanceRepository, (int) $input->getOption('normalizationDelta'));
+        $service = new SchedulingService($output, $distanceRepository, (int) $input->getOption('normalizationDeepness'));
         $service->start((int) $input->getOption('interval'), (float) $input->getOption('correctionDelta'));
     }
 }
