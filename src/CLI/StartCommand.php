@@ -1,6 +1,8 @@
 <?php
 namespace SkydiveMarius\HWM\Client\Src\CLI;
 
+use SkydiveMarius\HWM\Client\Src\Distance\DistanceRepository;
+use SkydiveMarius\HWM\Client\Src\Distance\UltrasonicAdapter;
 use SkydiveMarius\HWM\Client\Src\Scheduling\SchedulingService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +23,7 @@ class StartCommand extends Command
 
         $this->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 60);
         $this->addOption('correctionDelta', 'c', InputOption::VALUE_OPTIONAL, 0);
+        $this->addOption('normalizationDelta', 'n', InputOption::VALUE_OPTIONAL, 5);
     }
 
     /**
@@ -31,7 +34,8 @@ class StartCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $service = new SchedulingService($output);
+        $distanceRepository = new DistanceRepository($output, new UltrasonicAdapter());
+        $service = new SchedulingService($output, $distanceRepository, (int) $input->getOption('normalizationDelta'));
         $service->start((int) $input->getOption('interval'), (float) $input->getOption('correctionDelta'));
     }
 }

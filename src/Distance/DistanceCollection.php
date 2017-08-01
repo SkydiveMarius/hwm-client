@@ -2,13 +2,14 @@
 namespace SkydiveMarius\HWM\Client\Src\Distance;
 
 use Carbon\Carbon;
+use SkydiveMarius\HWM\Client\Src\Upload\Transmittable;
 
 /**
  * Class DistanceCollection
  *
  * @package HWM\Measurement\Distance
  */
-class DistanceCollection implements \JsonSerializable
+class DistanceCollection implements Transmittable
 {
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
@@ -127,14 +128,10 @@ class DistanceCollection implements \JsonSerializable
     }
 
     /**
-     * @inheritdoc
+     * @return int min. age in seconds
      */
-    public function jsonSerialize()
+    public function getMinimumAge(): int
     {
-        return [
-            'time'    => $this->time->format(self::DATE_FORMAT),
-            'average' => $this->getAverage(),
-            'values'  => $this->values
-        ];
+        return $this->getAge();
     }
 }

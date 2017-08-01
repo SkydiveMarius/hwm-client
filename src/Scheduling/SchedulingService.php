@@ -2,6 +2,7 @@
 namespace SkydiveMarius\HWM\Client\Src\Scheduling;
 
 use SkydiveMarius\HWM\Client\Src\Distance\DistanceRepository;
+use SkydiveMarius\HWM\Client\Src\Distance\NormalizedDistanceContainer;
 use SkydiveMarius\HWM\Client\Src\Upload\UploadService;
 use Symfony\Component\Console\Output\OutputInterface;
 use Volantus\ConsoleOperations\Src\Output\OutputOperations;
@@ -26,6 +27,11 @@ class SchedulingService
     private $uploadService;
 
     /**
+     * @var NormalizedDistanceContainer
+     */
+    private $normalizationContainer;
+
+    /**
      * @var int
      */
     private $cycle = 0;
@@ -36,12 +42,14 @@ class SchedulingService
      * @param OutputInterface    $output
      * @param DistanceRepository $distanceRepository
      * @param UploadService      $uploadService
+     * @param int                $normDeepness
      */
-    public function __construct(OutputInterface $output, DistanceRepository $distanceRepository = null, UploadService $uploadService = null)
+    public function __construct(OutputInterface $output, DistanceRepository $distanceRepository = null, UploadService $uploadService = null, int $normDeepness)
     {
         $this->output = $output;
         $this->distanceRepository = $distanceRepository ?: new DistanceRepository($this->output);
         $this->uploadService = $uploadService ?: new UploadService($this->output);
+        $this->normalizationContainer = new NormalizedDistanceContainer($normDeepness);
     }
 
     /**
@@ -56,8 +64,11 @@ class SchedulingService
 
             try {
                 $distanceCollection = $this->distanceRepository->measure();
+                $this->writeInfoLine('SchedulingService', 'Applying correction delta: ' . $correctionDelta);
                 $distanceCollection->setCorrectionDelta($correctionDelta);
-                $this->uploadService->upload($distanceCollection);
+                $this->normalizationContainer->put($distanceCollection);
+
+                $this->uploadService->upload($this->normalizationContainer);
 
                 $delta = $interval - $distanceCollection->getAge();
                 if ($delta > 0) {

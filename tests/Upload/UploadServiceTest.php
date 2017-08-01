@@ -61,7 +61,7 @@ class UploadServiceTest extends TestCase
         self::assertCount(1, $this->requestContainer);
         self::assertEquals('POST', $this->requestContainer[0]['request']->getMethod());
         self::assertEquals('secretToken', $this->requestContainer[0]['request']->getHeaderLine('api-token'));
-        self::assertEquals(json_encode($distanceCollection), $this->requestContainer[0]['request']->getBody());
+        self::assertEquals(json_encode(['average' => $distanceCollection->getAverage()]), $this->requestContainer[0]['request']->getBody()->getContents());
     }
 
     public function test_upload_retryOnFailure()

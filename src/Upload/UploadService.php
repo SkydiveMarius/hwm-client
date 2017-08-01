@@ -2,7 +2,6 @@
 namespace SkydiveMarius\HWM\Client\Src\Upload;
 
 use GuzzleHttp\Client;
-use SkydiveMarius\HWM\Client\Src\Distance\DistanceCollection;
 use Symfony\Component\Console\Output\OutputInterface;
 use Volantus\ConsoleOperations\Src\Output\OutputOperations;
 
@@ -54,25 +53,24 @@ class UploadService
     }
 
     /**
-     * @param DistanceCollection $distanceCollection
+     * @param Transmittable $value
      *
      * @throws TimeoutExceededException
      */
-    public function upload(DistanceCollection $distanceCollection)
+    public function upload(Transmittable $value)
     {
         $successful = false;
-        $this->writeInfoLine('UploadServe', 'Applying correction delta: ' . $distanceCollection->getCorrectionDelta());
-        $this->writeInfoLine('UploadServe', 'Sending measured distance, average value => ' . round($distanceCollection->getAverage(), 2));
+        $this->writeInfoLine('UploadServe', 'Sending measured distance, average value => ' . round($value->getAverage(), 2));
 
         do {
             try {
-                $this->send($distanceCollection);
+                $this->send($value);
                 $successful = true;
                 $this->writeGreenLine('UploadService', 'Transmitted measured values successfully');
             } catch (\Throwable $e) {
                 $this->writeRedLine('UploadService', 'Transmission failed => '. $e->getMessage());
             }
-        } while (!$successful && $distanceCollection->getAge() <= $this->timeout);
+        } while (!$successful && $value->getMinimumAge() <= $this->timeout);
 
         if (!$successful) {
             throw new TimeoutExceededException($this->timeout);
@@ -80,12 +78,14 @@ class UploadService
     }
 
     /**
-     * @param DistanceCollection $distanceCollection
+     * @param Transmittable $value
      */
-    private function send(DistanceCollection $distanceCollection)
+    private function send(Transmittable $value)
     {
         $this->client->post($this->serverUrl, [
-            'json'    => $distanceCollection,
+            'json'    => [
+                'average' => $value->getAverage()
+            ],
             'headers' => [
                 'api-token' => $this->authToken
             ]

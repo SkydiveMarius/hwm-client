@@ -1,12 +1,14 @@
 <?php
 namespace SkydiveMarius\HWM\Client\Src\Distance;
 
+use SkydiveMarius\HWM\Client\Src\Upload\Transmittable;
+
 /**
  * Class NormalizationService
  *
  * @package SkydiveMarius\HWM\Client\Src\Distance
  */
-class NormalizedDistanceContainer
+class NormalizedDistanceContainer implements Transmittable
 {
     /**
      * @var int
@@ -55,5 +57,17 @@ class NormalizedDistanceContainer
         }
 
         return $sum / count($this->measurements);
+    }
+
+    /**
+     * @return int min. age in seconds
+     */
+    public function getMinimumAge(): int
+    {
+        if (empty($this->measurements)) {
+            throw new \RuntimeException('Unable to get min. age of empty NormalizedDistanceContainer');
+        }
+
+        return $this->measurements[0]->getAge();
     }
 }
