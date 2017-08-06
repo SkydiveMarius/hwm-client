@@ -23,7 +23,7 @@ class StartCommand extends Command
 
         $this->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 60);
         $this->addOption('correctionDelta', 'c', InputOption::VALUE_OPTIONAL, 0);
-        $this->addOption('normalizationDeepness', 'n', InputOption::VALUE_OPTIONAL, 5);
+        $this->addOption('normalizationDeepness', 'd', InputOption::VALUE_OPTIONAL, 5);
     }
 
     /**
