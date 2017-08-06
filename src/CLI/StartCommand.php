@@ -35,7 +35,7 @@ class StartCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $distanceRepository = new DistanceRepository($output, new UltrasonicAdapter());
-        $service = new SchedulingService($output, $distanceRepository, (int) $input->getOption('normalizationDeepness'));
+        $service = new SchedulingService($output, $distanceRepository, null, (int) $input->getOption('normalizationDeepness'));
         $service->start((int) $input->getOption('interval'), (float) $input->getOption('correctionDelta'));
     }
 }
